@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+<script type="text/javascript" charset="utf-8">
+  var socket = io({transports: ['websocket']});
+  socket.on('connect', function() {
+    document.getElementById('connection').innerText = 'connected';
+    socket.emit('connection established', {data: 'I\'m connected!'});
+  });
+
+  function get_server_time() {
+    socket.emit('get time', function(t) {
+    document.getElementById('server_time').innerText = t;
+    });
+  }
+
+  setInterval(get_server_time, 1000);
+</script>
+
+</head>
+
+<body>
+  <p>
+    connection:
+    <span id='connection'>not connected</span>
+  </p>
+  <p>
+    server time:
+    <span id='server_time'>not available</span>
+  </p>
+</body>
+
+</html>
